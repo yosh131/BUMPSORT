@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BUMP-Sorter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/styles.css') }}">
+    <script src="{{ url_for('static', filename='./js/main.js')}}"></script>
+    <!-- 以下、Chartのライブラリ -->
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <!-- <script src="./js/sort.js" type="module"></script> -->
+</head>
+
+<body>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLHKLX9SZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BLHKLX9SZ4');
+    </script>
+    <!-- Google tag ここまで -->
+
+    <div id="warning-message">
+        <p>注意!: このページを離れるか、再読み込みすると選択結果が失われます。</p>
+    </div>
+
+    <div class="header">
+        <h1>BUMP-Sorter</h1>
+    </div>
+    <div id="pageDiscription">
+        <h2>
+            BUMP-Sorter について
+        </h2>
+        <p>
+            BUMP OF CHICKEN
+            の楽曲ソートを行うページです。<br>
+            隠しトラックを含めた全楽曲が対象です。<br>
+            表示された楽曲のどちらが好きかを選んでいくと好きな曲ランキングが完成します。<br>
+            ただし、全楽曲を対象として並び変えると非常に時間がかかるため、<br><strong>最初にある程度好きな曲を選択してもらい、その後にソートを開始する方式としています</strong>。
+            <br>
+            <br>
+            誤字脱字・バグ報告・ご要望などあれば制作者のTwitterまでお知らせください。
+            <br>(制作者Twitter: <a href="https://twitter.com/yoshi_b_o_c" target="_blank">@yoshi_b_o_c </a>,
+            最終更新:2024.06.11, <a href="update_history.html" target="_blank">アップデート履歴</a>)
+            <br>
+
+            <hr>
+        </p>
+    </div>
+
+    <!-- <div id="startpage">
+        <button onclick="selectAll()"><b>ソートを開始する</b></button>
+    </div> -->
+
+
+    <div id="instruction">
+        <h3>
+            ①好きな曲を選んでください
+        </h3>
+        <p>
+            選択が終わったら画面最下部の完了ボタンを押してください。<br>
+            何曲選んでもOKですが、多ければ多いほどソートに時間がかかります。<br>
+            アルバム名をクリックするとアルバムの全曲を選択できます。
+        </p>
+    </div>
+    <br>
+    <button onclick="selectAll()"><b>全選択</b></button>
+    <button onclick="deselectAll()"><b>全選択解除</b></button>
+    <br>
+    <div id="songList">
+        <!-- JavaScriptで楽曲リストを生成するのでここには何も書かない -->
+    </div>
+
+    <!-- フローティングボタン -->
+    <div id="selectedCountButton" class="floating-button">
+        <span id="checked-count">0</span>
+    </div>
+
+
+    <!-- Top何件のソートをするか選択 -->
+    <div id="selectTopK">
+
+        <h3>
+            ②上位何曲までをソートするか選択してください
+        </h3>
+        <p>
+            推奨は10~30曲です。多ければ多いほどソートに時間がかかります。
+        </p>
+
+
+    </div>
+
+
+    <!--------- ここからソート ----------->
+
+    <div id="instruction_2">
+        <h3>
+            ③どちらが好きか選んでください
+        </h3>
+        <p>
+            5段階で選択してください。3は引き分けです。<br>
+            ※はじめの内は同じ曲が連続で表示されますが仕様です。<br>
+            ※1,5を使わない方が結果が正確になりやすいです。
+        </p>
+
+    </div>
+    <button onclick="saveSelection()"><b>選択を完了</b></button>
+    <div id="progress">
+        <!-- 曲数を表示 -->
+    </div>
+    <div id="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="song-container">
+        <!-- ここに選択楽曲が表示 -->
+    </div>
+    <div id="choice-container">
+        <!-- ボタンはここに生成されます -->
+    </div>
+
+    <div id="result-box">
+        <!-- 結果はここに表示されます -->
+    </div>
+    <div id="Twitter-share">
+        <button class="Twitter" id="twitterShareBtn" href="#" onclick="shareOnTwitter()">Twitter(X)でシェアする</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead id="table-head">
+                <!-- JavaScript で生成された見出しがここに表示されます -->
+            </thead>
+            <tbody id="song-list">
+                <!-- JavaScript で生成された曲リストがここに表示されます -->
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+</body>
+
+</html>
