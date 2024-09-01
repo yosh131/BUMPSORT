@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLHKLX9SZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BLHKLX9SZ4');
+    </script>
+    <!-- Google tag ここまで -->
+    <div class="container">
+        <h1>★ ★ BumpSort ★ ★</h1>
+        <p>BUMP OF CHICKEN の全楽曲でオリジナルランキングを作成するアプリです
+        </p>
+        <div class="button-container">
+            <a href="{{ url_for('start') }}" class="btn btn-primary">Start!</a>
+            <a href="{{ url_for('how_to_use') }}" class="btn btn-secondary">How to Use?</a>
+            <a href="{{ url_for('ranking') }}" class="btn btn-secondary">Ranking</a>
+        </div>
+    </div>
+    <!-- フッター部分 -->
+    <footer>
+        <p>Created by <a href="https://twitter.com/yoshi_b_o_c" target="_blank">{{ author }}</a> | Version: {{ version
+            }}
+        </p>
+    </footer>
+</body>
+
+</html>

@@ -4,37 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <title>BumpSort - Rock Your Ranking</title>
+    <link rel="stylesheet" href="static/css/modern_style.css">
+
 </head>
 
 <body>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLHKLX9SZ4"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-BLHKLX9SZ4');
-    </script>
-    <!-- Google tag ここまで -->
-    <div class="container">
-        <h1>★ ★ BumpSort ★ ★</h1>
-        <p>BUMP OF CHICKEN の全楽曲でオリジナルランキングを作成するアプリです
-        </p>
-        <div class="button-container">
-            <a href="{{ url_for('start') }}" class="btn btn-primary">Start!</a>
-            <a href="{{ url_for('how_to_use') }}" class="btn btn-secondary">How to Use?</a>
-            <a href="{{ url_for('ranking') }}" class="btn btn-secondary">Ranking</a>
+    <div class="container-index">
+        <!-- <div class="background-animation">
+            <div class="moving-bg"></div>
+        </div> -->
+        <div class="content">
+            <h1>BumpSort</h1>
+            <p>BUMP OF CHICKENの全楽曲でオリジナルランキングを作成</p>
+            <button class="btn btn-secondary" id="howBtn">How to Use?</button>
+            <button class="btn btn-primary" id="startBtn">Start!</button>
+            <button class="btn btn-secondary" id="rankingBtn">Ranking</button>
         </div>
     </div>
-    <!-- フッター部分 -->
+
     <footer>
         <p>Created by <a href="https://twitter.com/yoshi_b_o_c" target="_blank">{{ author }}</a> | Version: {{ version
             }}
         </p>
     </footer>
+
+    <script>
+        document.getElementById('startBtn').addEventListener('click', function () {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => this.style.transform = 'scale(1)', 100);
+        });
+
+        // カーソルエフェクト
+        document.addEventListener('mousemove', function (e) {
+            const cursor = document.createElement('div');
+            cursor.className = 'cursor-fx';
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+            document.body.appendChild(cursor);
+
+            setTimeout(() => {
+                cursor.remove();
+            }, 1000);
+        });
+
+        // リンク
+        const startBtn = document.getElementById('startBtn');
+        startBtn.addEventListener('click', () => {
+            window.location.href = '{{ url_for('start') }}';
+        });
+        const howBtn = document.getElementById('howBtn');
+        howBtn.addEventListener('click', () => {
+            window.location.href = '{{ url_for('how_to_use') }}';
+        });
+        const rankingBtn = document.getElementById('rankingBtn');
+        rankingBtn.addEventListener('click', () => {
+            window.location.href = '{{ url_for('ranking') }}';
+        });
+    </script>
 </body>
 
 </html>

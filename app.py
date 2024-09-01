@@ -6,19 +6,17 @@ sys.path.append('./templates')
 
 app = Flask(__name__)
 
-animals = ["猫", "犬", "うさぎ", "ハムスター", "鳥", "魚", "カメ", "フェレット", "イグアナ", "ヘビ"]
-
 @app.context_processor
 def inject_globals():
     return dict(version=Config.VERSION, author=Config.AUTHOR)
 
 @app.route('/')
-def index():
-    return render_template('index.html', animals=animals)
-
-@app.route('/')
 def home():
     return render_template('index.html')
+
+# @app.route('/select_thema')
+# def select_thema():
+#     return render_template('select_thema.html')
 
 @app.route('/start')
 def start():
@@ -32,17 +30,9 @@ def how_to_use():
 def ranking():
     return render_template('ranking.html')
 
-@app.route('/sort', methods=['POST'])
+@app.route('/sort')
 def sort():
-    choices = request.json['choices']
-    remaining = [animal for animal in animals if animal not in choices]
-    
-    if len(remaining) >= 2:
-        pair = random.sample(remaining, 2)
-        return jsonify({'pair': pair})
-    else:
-        sorted_animals = choices + remaining
-        return jsonify({'result': sorted_animals})
+    return render_template('sort.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

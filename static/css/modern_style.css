@@ -22,11 +22,25 @@ html {
     min-height: 100vh;
 }
 
-.container {
+.container-index {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* vertical-align: middle; */
+    height: 100vh;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: flex;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    text-align: left;
     /* vertical-align: middle; */
     height: auto;
     max-width: 800px;
@@ -146,11 +160,33 @@ h2 {
 /* -----------Song Selection Page Styles ------------ */
 /*  */
 /*  */
-.radio-group,
+
+
+.radio-group input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.0rem;
+    height: 1.0rem;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-right: 5px;
+    transition: background-color 0.2s;
+}
+
+.radio-group input[type="radio"]:checked {
+    background-color: #4CAF50;
+}
+
+.radio-group input[type="radio"]:checked:after {
+    display: block;
+}
+
+/* .radio-group,
 .song-list {
     display: flex;
     flex-direction: column;
 }
+    */
 
 .radio-group {
     /* background-color: var(--surface-color); */
@@ -162,9 +198,7 @@ h2 {
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 }
 
-
-
-.album-list {
+*/ .album-list {
     margin-bottom: 20px;
 }
 
@@ -185,8 +219,11 @@ h2 {
 .song-list {
     margin-top: 10px;
     padding-left: 20px;
-    overflow: hidden;
+    overflow: auto;
     transition: max-height 0.3s ease-in-out;
+}
+
+.song-list.hidden {
     max-height: 0;
 }
 
@@ -224,10 +261,10 @@ h2 {
 }
 
 .custom-checkbox input[type="checkbox"]:checked {
-    background-color: #137bc0;
+    background-color: #237bff;
 }
 
-.custom-checkbox input[type="checkbox"]:after {
+/* .custom-checkbox input[type="checkbox"]:after {
     content: '';
     position: absolute;
     width: 10px;
@@ -237,7 +274,7 @@ h2 {
     top: 2px;
     left: 2px;
     display: none;
-}
+} */
 
 .custom-checkbox input[type="checkbox"]:checked:after {
     display: block;
@@ -267,30 +304,17 @@ h2 {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* .radio-group label,
-.song-list li {
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+
+/* プルダウンのスタイル */
+select {
+    /* ここにCSSでデザインをカスタマイズ */
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 3rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.radio-group label:hover,
-.song-list li:hover {
-    color: var(--primary-color);
-}
-
-.album-list {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: var(--secondary-color);
-}
-
-.selection-count {
-    text-align: center;
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary-color);
-} */
 
 /* Comparison Page Styles */
 .comparison-container {
