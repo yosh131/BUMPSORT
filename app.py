@@ -37,10 +37,13 @@ def create_table():
         host=host,
         database=dbname,
         user=user,
-        password=password
+        password=password,
+        port=port
     )
     cur = conn.cursor()
-    cur.execute('''
+    try:
+        conn.autocommit = False    
+        cur.execute('''
         CREATE TABLE IF NOT EXISTS results (
             db_id SERIAL PRIMARY KEY,
             list_id TEXT NOT NULL,
@@ -53,12 +56,19 @@ def create_table():
             timestamp TIMESTAMP,
             count_compare INTEGER
         );
-    ''')
-    conn.commit()
-    cur.close()
-    conn.close()
+        ''')
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        # エラー発生時はロールバック
+        conn.rollback()
+        print(f"Error: {e}")
+        raise  # 上位の呼び出し元に例外を伝達
+    finally:
+        cur.close()
+        conn.close()
 
-create_table()
 
 
 def insert_data(song_objects, ip_address, timestamp, list_id, theme, count_compare):
@@ -70,26 +80,38 @@ def insert_data(song_objects, ip_address, timestamp, list_id, theme, count_compa
         port=port
         )
     cur = conn.cursor()
-    
-    for song_object in song_objects:
-        cur.execute('''
-            INSERT INTO results (list_id, theme, id, song, album, rank, ip_address, timestamp, count_compare)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-        ''', (
-            list_id,
-            theme,
-            song_object['id'],
-            song_object['song'],
-            song_object['album'],
-            song_object['rank'],
-            ip_address,
-            timestamp,
-            count_compare
-        ))
-    
-    conn.commit()
-    cur.close()
-    conn.close()
+    print(f"connection: {dbname}")
+
+    try:
+        # トランザクション開始
+        conn.autocommit = False
+
+        for song_object in song_objects:
+            cur.execute('''
+                INSERT INTO results (list_id, theme, id, song, album, rank, ip_address, timestamp, count_compare)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ''', (
+                list_id,
+                theme,
+                song_object['id'],
+                song_object['song'],
+                song_object['album'],
+                song_object['rank'],
+                ip_address,
+                timestamp,
+                count_compare
+            ))
+
+        # すべての挿入が成功したらコミット
+        conn.commit()
+    except Exception as e:
+        # エラー発生時はロールバック
+        conn.rollback()
+        print(f"Error: {e}")
+        raise  # 上位の呼び出し元に例外を伝達
+    finally:
+        cur.close()
+        conn.close()
 
 
 @app.route('/')
