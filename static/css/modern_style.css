@@ -12,7 +12,7 @@
 
 body,
 html {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     font-family: 'Roboto', sans-serif;
     /* background-color: var(--background-color); */
@@ -471,12 +471,7 @@ select {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-    /* justify-content: center; */
     /* align-items: center; */
-    /* margin-left: auto;
-    margin-right: auto; */
-    /* max-width: 1200px; */
-    /* margin: auto; */
 }
 
 .ranking-card {
@@ -486,6 +481,8 @@ select {
     padding: 0.4rem;
     transition: transform 0.3s ease;
     max-width: 600px;
+    margin: 0 auto;
+    width: 95%;
 }
 
 .ranking-card:hover {
@@ -498,12 +495,12 @@ select {
 }
 
 .top-3 .title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 
 .top-3 .rank {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .top-3 .album {
@@ -511,18 +508,18 @@ select {
 }
 
 .rank {
-    font-size: 1.1rem;
+    font-size: 0.85rem;
     font-weight: bold;
     color: #ff6f61;
 }
 
 .title {
-    font-size: 1.0rem;
+    font-size: 0.85rem;
     font-weight: 500;
 }
 
 .album {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     color: #888;
 }
 
