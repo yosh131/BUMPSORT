@@ -32,7 +32,33 @@ def generate_user_id(ip_address, timestamp):
     unique_string = f"{ip_address}{timestamp}"
     return hashlib.sha256(unique_string.encode()).hexdigest()
 
+def create_table():
+    conn = psycopg2.connect(
+        host=host,
+        database=dbname,
+        user=user,
+        password=password
+    )
+    cur = conn.cursor()
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS results (
+            db_id SERIAL PRIMARY KEY,
+            list_id TEXT NOT NULL,
+            theme TEXT, 
+            id INTEGER NOT NULL,
+            song TEXT,
+            album TEXT,
+            rank INTEGER,
+            ip_address TEXT,
+            timestamp TIMESTAMP,
+            count_compare INTEGER
+        );
+    ''')
+    conn.commit()
+    cur.close()
+    conn.close()
 
+create_table()
 
 
 def insert_data(song_objects, ip_address, timestamp, list_id, theme, count_compare):
@@ -106,6 +132,7 @@ def save_results():
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     list_id = generate_user_id(ip_address, timestamp)
     try:
+        create_table()
         insert_data(song_objects, ip_address, timestamp, list_id, theme, countComp)
         return jsonify({'status': 'success'}), 200
     except Exception as e:
