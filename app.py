@@ -6,6 +6,7 @@ import sqlite3
 from datetime import datetime
 import sys
 import os
+import pytz
 from dotenv import load_dotenv
 
 # .envファイルを読み込み
@@ -31,6 +32,14 @@ def inject_globals():
 def generate_user_id(ip_address, timestamp):
     unique_string = f"{ip_address}{timestamp}"
     return hashlib.sha256(unique_string.encode()).hexdigest()
+
+
+def get_client_ip():
+    if request.headers.getlist("X-Forwarded-For"):
+        ip_address = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+        ip_address = request.remote_addr
+    return ip_address
 
 def create_table():
     conn = psycopg2.connect(
@@ -150,8 +159,10 @@ def save_results():
     song_objects = data.get('songObjects')
     theme = data.get('theme')
     countComp = data.get('count')
-    ip_address = request.remote_addr
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    ip_address = get_client_ip()
+    # JST（UTC+9）のタイムゾーンオブジェクトを作成
+    jst = pytz.timezone('Asia/Tokyo')
+    timestamp = datetime.now(jst).strftime('%Y-%m-%d %H:%M:%S')
     list_id = generate_user_id(ip_address, timestamp)
     try:
         create_table()
