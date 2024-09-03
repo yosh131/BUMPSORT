@@ -17,27 +17,6 @@ def generate_user_id(ip_address, timestamp):
     unique_string = f"{ip_address}{timestamp}"
     return hashlib.sha256(unique_string.encode()).hexdigest()
 
-# データベース初期化
-# def init_db():
-#     conn = sqlite3.connect('database.db')
-#     cur = conn.cursor()
-    
-#     # 新しいテーブルを作成
-#     cur.execute('''
-#         CREATE TABLE IF NOT EXISTS results (
-#             db_id INTEGER PRIMARY KEY AUTOINCREMENT,
-#             id INTEGER NOT NULL,
-#             song TEXT NOT NULL,
-#             album TEXT NOT NULL,
-#             rank INTEGER NOT NULL,
-#             ip_address TEXT NOT NULL,
-#             timestamp TEXT NOT NULL
-#         )
-#     ''')
-    
-#     conn.commit()
-#     conn.close()
-
 
 
 
