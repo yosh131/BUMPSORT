@@ -41,21 +41,23 @@ def generate_user_id(ip_address, timestamp):
 
 
 
-def insert_data(song_objects, ip_address, timestamp, list_id):
+def insert_data(song_objects, ip_address, timestamp, list_id, theme, count_compare):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     for song_object in song_objects:
         cur.execute('''
-            INSERT INTO results (list_id, id, song, album, rank, ip_address, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO results (list_id, theme, id, song, album, rank, ip_address, timestamp, count_compare)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             list_id,
+            theme,
             song_object['id'],
             song_object['song'],
             song_object['album'],
             song_object['rank'],
             ip_address,
-            timestamp
+            timestamp,
+            count_compare
         ))
     conn.commit()
     conn.close()
@@ -93,12 +95,15 @@ def result():
 @app.route('/save_results', methods=['POST'])
 def save_results():
     data = request.json
+    print(data)
     song_objects = data.get('songObjects')
+    theme = data.get('theme')
+    countComp = data.get('count')
     ip_address = request.remote_addr
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     list_id = generate_user_id(ip_address, timestamp)
     try:
-        insert_data(song_objects, ip_address, timestamp, list_id)
+        insert_data(song_objects, ip_address, timestamp, list_id, theme, countComp)
         return jsonify({'status': 'success'}), 200
     except Exception as e:
         print(f"Error: {e}")

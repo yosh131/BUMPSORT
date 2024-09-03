@@ -12,12 +12,14 @@ def init_db():
         CREATE TABLE results (
             db_id INTEGER PRIMARY KEY AUTOINCREMENT,
             list_id INTEGER NOT NULL,
+            theme TEXT, 
             id INTEGER NOT NULL,
             song TEXT,
             album TEXT,
             rank INTEGER,
             ip_address TEXT,
-            timestamp TEXT
+            timestamp TEXT,
+            count_compare INTEGER
         );
     ''')
     

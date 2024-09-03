@@ -1,13 +1,15 @@
 
 // グローバル変数
-let selectedTheme = '';
-let selectedIds = [];
-let selectedSongs = [];
-// let songList = [];
-let numberOfTop = 0;
+let selectedTheme = ''; //ソートのテーマ
+let selectedIds = []; //選択された曲ID
+let selectedSongs = []; //選択された曲オブジェクト
+let numberOfTop = 0; //上位K曲
 let totalSongs = selectedIds.length;
-let songObjects = [];
+let songObjects = []; //選択された曲オブジェクト
 
+// 比較回数カウント
+let countComparison = 0;
+let comparisons = new Map();
 
 // CSV読み込み部
 
@@ -212,15 +214,20 @@ async function quickSortFirstK(A, start, end, K) {
 
 // pivot選択.[start, end)の3つをランダムに抽出してきて、中央値のインデックスを返す。
 // 閾値以下の場合はランダムな一個のインデックスを返す。
-async function pivotSelection(A, start, end, compare_func, threshold = 7) {
+async function pivotSelection(A, start, end, compare_func, threshold = 5) {
     async function insertionSort(arr, startIndex, endIndex) {
         return new Promise(async resolve => {
             for (let i = startIndex + 1; i < endIndex; i++) {
                 let j = i - 1;
                 while (j >= startIndex) {
-                    displaySongs(arr[j], arr[j + 1]);
-                    await waitButtonClick();
-                    if (compare_func(arr[j], arr[j + 1]) > 0) {
+                    let comp = reuseCompareResult(arr[j], arr[j + 1]);
+                    //比較したことがあれば再利用
+                    if (comp == undefined) {//比較したことのない要素
+                        displaySongs(arr[j], arr[j + 1]);
+                        await waitButtonClick();
+                        comp = compare_func(arr[j], arr[j + 1])
+                    }
+                    if (comp > 0) {
                         const current_element = arr[j];
                         arr[j] = arr[j + 1];
                         arr[j + 1] = current_element;
@@ -256,7 +263,7 @@ async function pivotSelection(A, start, end, compare_func, threshold = 7) {
 
             // 中央値の要素が元の配列での何番目の要素かを調べる
             const originalIndex = A.indexOf(medianValue);
-
+            console.log("pivot :", medianValue.song)
             resolve(originalIndex);
         }
     })
@@ -275,9 +282,14 @@ async function partition_3div(A, start, end, pivot_idx, compare_func) {
                 middle.push(A[i]);
                 continue;
             }
-            displaySongs(pivot, A[i]);
-            await waitButtonClick();
-            const result = compare_func(pivot, A[i]);
+
+            let result = reuseCompareResult(pivot, A[i]);
+            //比較したことがあれば再利用
+            if (result == undefined) {//比較したことのない要素
+                displaySongs(pivot, A[i]);
+                await waitButtonClick();
+                result = compare_func(pivot, A[i])
+            }
             switch (result) {
                 case 1:
                     left1.push(A[i]);
@@ -312,35 +324,46 @@ async function partition_3div(A, start, end, pivot_idx, compare_func) {
 
 // 比較関数
 function compare_func(a, b) {
+    countComparison++;
     // a, b はsong
     // await waitButtonClick();
     let result = -10;
     switch (choiceHistory) {
-        case 1:
-            result = -2;
-            break;
         case 2:
-            result = -1;
+            result = -1; // win left-elem
             break;
         case 3:
-            result = 0;
+            result = 0; // draw
             break;
         case 4:
-            result = 1;
-            break;
-        case 5:
-            result = 2;
+            result = 1; // win right-elem
             break;
         default:
             console.log("Error! choice is out of bound.");
             break;
     }
+
+    // 比較結果を保持
+    if (!comparisons.has(a.id)) {
+        comparisons.set(a.id, new Map());
+    }
+    comparisons.get(a.id).set(b.id, -result); // -1だとaの勝ちなので、aはb.idに対して1を記録
+    if (!comparisons.has(b.id)) {
+        comparisons.set(b.id, new Map());
+    }
+    comparisons.get(b.id).set(a.id, result); // -1だとaの勝ちなので、bはaに対して-1を記録
+
     // const result = choiceHistory;
     // クリックの結果をみる
     // console.log(result);
     return result;
 }
 
+// 保持された比較結果を再使用可能かを判定
+function reuseCompareResult(song1, song2) {
+    return comparisons.get(song1.id)?.get(song2.id);
+    // 存在しなければundefined, すれば1,0,-1の比較結果
+}
 
 
 /* -----------UI部分------------- */
@@ -353,6 +376,7 @@ function updateButtonText(id, newText) {
     }
 }
 function displaySongs(song1, song2) {
+    console.log(song1.song, ' vs ', song2.song);
     updateButtonText('2', song1.song);
     updateButtonText('4', song2.song);
 }
@@ -411,13 +435,13 @@ function encodeIds(ids) {
 }
 
 
-function saveResults(songObjects) {
+function saveResults(songObjects, theme, count) {
     fetch('/save_results', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ songObjects })
+        body: JSON.stringify({ songObjects, theme, count })
     })
         .then(response => response.json())
         .then(data => {
@@ -462,6 +486,8 @@ function saveResults(songObjects) {
 
 // ソート終了後にResultページへ遷移
 function transitionResult(sortedSongObjects) {
+    console.log("Total count:", countComparison);
+
     const sortedIds = sortedSongObjects.map(item => item.id);
     const resultRanks = sortedSongObjects.map(item => item.rank);
 
@@ -481,7 +507,7 @@ function transitionResult(sortedSongObjects) {
     console.log("/result?" + queryParam);
 
     // ページ遷移直前にデータをサーバーに送信
-    saveResults(sortedSongObjects);
+    saveResults(sortedSongObjects, selectedTheme, countComparison);
 
-    // window.location.href = "/result?param=" + queryParam;
+    window.location.href = "/result?param=" + queryParam;
 }
