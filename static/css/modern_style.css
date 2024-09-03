@@ -20,6 +20,8 @@ html {
     background-attachment: fixed;
     color: var(--text-color);
     min-height: 100vh;
+    max-width: 800px;
+    min-width: 400px;
 }
 
 .container-index {
@@ -28,7 +30,6 @@ html {
     justify-content: center;
     align-items: center;
     height: 90vh;
-    max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
     position: flex;
@@ -42,7 +43,7 @@ html {
     height: auto;
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0.5rem;
     position: flex;
 }
 
@@ -69,18 +70,18 @@ h1 {
     text-align: center;
     margin-bottom: 2rem;
     color: var(--secondary-color);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
 }
 
 h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     text-align: left;
     margin-bottom: 1rem;
     color: var(--secondary-color);
 }
 
 h3 {
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     text-align: center;
     margin-bottom: 0.5rem;
     color: var(--secondary-color);
@@ -91,7 +92,8 @@ h4 {
 }
 
 p {
-    font-size: 1.3rem;
+    font-size: 0.9rem;
+    margin-top: 0.1rem;
 }
 
 .center {
@@ -143,7 +145,7 @@ p {
 .btn-primary {
     background-color: #e74c3c;
     color: white;
-    /* font-size: 1.8rem; */
+    font-size: 0.9rem;
     max-width: 30%;
 }
 
@@ -151,7 +153,7 @@ p {
     background-color: transparent;
     color: #e74c3c;
     border: 2px solid #e74c3c;
-    /* font-size: 1.0rem; */
+    font-size: 0.75rem;
     max-width: 30%;
 }
 
@@ -228,6 +230,12 @@ p {
     padding: 0rem;
     margin-bottom: 0rem;
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+label {
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
 }
 
 */ .album-list {
@@ -378,7 +386,7 @@ select {
     padding: 15px;
     flex-grow: 1;
     align-items: center;
-    font-size: 2.0rem;
+    font-size: 1.2rem;
     color: rgb(39, 39, 39);
     font-family: 'Roboto', sans-serif;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -391,7 +399,7 @@ select {
 
 .draw-box {
     width: 15%;
-    font-size: 1.4rem;
+    font-size: 0.8rem;
 }
 
 .song-box p {
@@ -453,8 +461,9 @@ select {
 .title {
     text-align: center;
     color: #333;
-    font-size: 2.5rem;
-    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
+    margin-top: -0.5rem;
+    /* margin-bottom: 0.8rem; */
 }
 
 
@@ -462,6 +471,10 @@ select {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* margin-left: auto;
+    margin-right: auto; */
     /* max-width: 1200px; */
     /* margin: auto; */
 }
@@ -472,6 +485,7 @@ select {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 0.4rem;
     transition: transform 0.3s ease;
+    max-width: 600px;
 }
 
 .ranking-card:hover {
@@ -484,23 +498,31 @@ select {
 }
 
 .top-3 .title {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 
+.top-3 .rank {
+    font-size: 1.3rem;
+}
+
+.top-3 .album {
+    font-size: 0.8rem;
+}
+
 .rank {
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     font-weight: bold;
     color: #ff6f61;
 }
 
 .title {
-    font-size: 1.3rem;
+    font-size: 1.0rem;
     font-weight: 500;
 }
 
 .album {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     color: #888;
 }
 
@@ -569,13 +591,14 @@ th {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-top: 0px;
     margin-bottom: 30px;
     display: block;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    font-family: 'Roboto', sans-serif;
 }
 
 .Twitter:hover {
@@ -583,6 +606,25 @@ th {
     background-color: #0d95e8;
 }
 
+#backToHomeBtn {
+    /* position: fixed; */
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#backToHomeBtn:hover {
+    background-color: #1d1d1d;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
 
 footer {
     text-align: center;

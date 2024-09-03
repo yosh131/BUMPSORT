@@ -5,6 +5,8 @@ let selectedSongs = [];
 let numberOfTop = 0;
 let songObjects = [];
 
+
+
 // クエリパラメータをデコードする
 function decodeQueryParameters(queryString) {
     // ?で分割してリストを取得
@@ -86,6 +88,13 @@ function showResult(songList) {
     // Twitterにシェアボタンを表示
     const TwitterDiv = document.getElementById('Twitter-share');
     TwitterDiv.style.display = 'block'
+
+
+    // トップに戻るボタンの機能付与
+    document.getElementById('backToHomeBtn').addEventListener('click', function () {
+        window.location.href = '/';  // トップページにリダイレクト
+    });
+
 
     // HTMLの要素を取得
     const themeContainer = document.getElementById('theme_container');
@@ -282,7 +291,29 @@ function showResult(songList) {
 function shareOnTwitter() {
     // Twitterシェアボタンの内容を更新
     const twitterShareBtn = document.getElementById('twitterShareBtn');
-    const shareText = `#BUMPSORT \n https://yosh131.github.io/BUMP-Sorter/`;
+    const currentUrl = window.location.href;
+    console.log(currentUrl);
+    // TOPページに戻る機能
+
+    // 上位曲をTweetに含ませる
+    const sortedSongTitles = selectedSongs.map(item => item.song);
+
+    let shareText = `#BUMPSORT 結果! \n`
+    shareText += `テーマ：${selectedTheme}\n`;
+    shareText += `1位：${sortedSongTitles[0]}\n`;
+    shareText += `2位：${sortedSongTitles[1]}\n`;
+    shareText += `3位：${sortedSongTitles[2]}\n`;
+
+    shareText += `全ての結果はこちら　⇒　` + currentUrl;
+
+    // ここに機能追加したい
+    // sortedSongTitlesの中の上位のいくつかを、下記のフォーマットで並べたい
+    // 1位: hogehoge
+    // 2位: fugafuga
+    // …
+    // 全ての結果はこちら⇒ https://~
+
+
     const twitterURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
     twitterShareBtn.href = twitterURL;
 

@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BumpSort-結果</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/modern_style.css') }}">
     <!-- Font Awesome の CDN を利用 -->
@@ -11,7 +13,7 @@
 
 <body>
     <div class="container">
-        <h1>ソート結果</h1>
+        <h3 style="font-size:1.8rem;">ソート結果</h3>
 
         <div id="theme_container">
             <!-- 前ページで選択したテーマをJSで表示 -->
@@ -30,9 +32,14 @@
         <br>
         <br>
         <div id="Twitter-share" class="center">
-            <button class="Twitter fab fa-twitter" id="twitterShareBtn" href="#"
-                onclick="shareOnTwitter()">　Twitter(X)で結果をシェア</button>
+            <button class="Twitter fab fa-twitter" id="twitterShareBtn" href="#" onclick="shareOnTwitter()">　Twitter (X)
+                で結果をシェア</button>
         </div>
+
+
+        <!-- トップに戻るボタン -->
+        <button id="backToHomeBtn">トップページに戻る</button>
+
     </div>
 
     <footer>
