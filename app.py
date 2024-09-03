@@ -1,11 +1,26 @@
 from flask import Flask, render_template, request, jsonify
 from config import Config
 import hashlib
-
+import psycopg2
 import sqlite3
 from datetime import datetime
 import sys
+import os
+from dotenv import load_dotenv
+
+# .envファイルを読み込み
+load_dotenv()
+
+# DB操作用の環境変数を取得
+dbname = os.getenv("DATABASE_NAME")
+user = os.getenv("DATABASE_USER")
+password = os.getenv("DATABASE_PASSWORD")
+host = os.getenv("DATABASE_HOST")
+port = os.getenv("DATABASE_PORT")
+
 sys.path.append('./templates')
+
+
 
 app = Flask(__name__)
 
@@ -21,12 +36,19 @@ def generate_user_id(ip_address, timestamp):
 
 
 def insert_data(song_objects, ip_address, timestamp, list_id, theme, count_compare):
-    conn = sqlite3.connect('database.db')
+    conn = psycopg2.connect(
+        host=host,
+        database=dbname,
+        user=user,
+        password=password,
+        port=port
+        )
     cur = conn.cursor()
+    
     for song_object in song_objects:
         cur.execute('''
             INSERT INTO results (list_id, theme, id, song, album, rank, ip_address, timestamp, count_compare)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         ''', (
             list_id,
             theme,
@@ -38,7 +60,9 @@ def insert_data(song_objects, ip_address, timestamp, list_id, theme, count_compa
             timestamp,
             count_compare
         ))
+    
     conn.commit()
+    cur.close()
     conn.close()
 
 
