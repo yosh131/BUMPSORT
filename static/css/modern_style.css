@@ -350,6 +350,8 @@ select {
     display: table;
     justify-content: space-around;
     margin-top: 2.5rem;
+    border-collapse: separate;
+    border-spacing: 0.3rem 0;
     /* justify-content: center; */
     /* max-width: 90%;
     margin: 0 auto;
@@ -361,26 +363,31 @@ select {
     vertical-align: middle;
     width: 35%;
     height: 30vh;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     border-style: solid;
     border-color: black;
     border-width: 1.5px;
+    border: none;
+    /* 枠線を消す */
+    border-radius: 3px;
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     flex-grow: 1;
     align-items: center;
-    font-size: 1.3rem;
+    font-size: 2.0rem;
     color: rgb(39, 39, 39);
     font-family: 'Roboto', sans-serif;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     text-align: center;
     transition: all 0.1s ease;
-
+    text-decoration: none;
+    /*数字は「左右、上下」*/
 }
+
 
 .draw-box {
     width: 15%;
-    font-size: 1.0rem;
+    font-size: 1.4rem;
 }
 
 .song-box p {
@@ -399,16 +406,6 @@ select {
     transform: translateY(2px);
 }
 
-/* .song-box {
-    padding: 0.5rem;
-    border: 1px solid #050d13;
-    border-radius: 5px;
-    margin: 5%;
-    text-align: center;
-    width: 30%;
-    background-color: #ffffff;
-    color: black;
-} */
 
 
 /* ソート進捗を表示 */
