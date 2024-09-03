@@ -4,59 +4,46 @@
 <head>
     <title>BumpSort-ソート</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/modern_style.css') }}">
-    <script src="{{ url_for('static', filename='./js/main.js')}}"></script>
+    <script src="{{ url_for('static', filename='./js/sort.js')}}"></script>
 </head>
 
 <body>
+    <div class="container">
+        <!--------- ここからソート ----------->
 
-    <div id="warning-message">
-        <p>注意!: このページを離れるか、再読み込みすると選択結果が失われます。</p>
-    </div>
-    <!--------- ここからソート ----------->
-
-    <div id="instruction_2">
-
-        <h2>④指示に従って3択を選んでください</h2>
+        <h2>④より好きな方を選んでください</h2>
         <p>
-            ※はじめの内は同じ曲が連続で表示されますが仕様です。<br>
-            ※引き分けの曲は同順位になります。
+            ※はじめの内は同じ曲が連続で表示されますが仕様です<br>
+            ※引き分けの曲は同順位になります
         </p>
 
-    </div>
-    <button onclick="saveSelection()"><b>選択を完了</b></button>
-    <div id="progress">
-        <!-- 曲数を表示 -->
-    </div>
-    <div id="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
 
-    <div id="song-container">
-        <!-- ここに選択楽曲が表示 -->
-    </div>
-    <div id="choice-container">
-        <!-- ボタンはここに生成されます -->
-    </div>
+        <div id="theme_container">
+            <!-- 前ページで選択したテーマをJSで表示 -->
+        </div>
 
-    <div id="result-box">
-        <!-- 結果はここに表示されます -->
-    </div>
-    <div id="Twitter-share">
-        <button class="Twitter" id="twitterShareBtn" href="#" onclick="shareOnTwitter()">Twitter(X)でシェアする</button>
-    </div>
+        <div id="progress">
+            <!-- 曲数を表示 -->
+        </div>
+        <div id="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
 
-    <div class="table-container">
-        <table>
-            <thead id="table-head">
-                <!-- JavaScript で生成された見出しがここに表示されます -->
-            </thead>
-            <tbody id="song-list">
-                <!-- JavaScript で生成された曲リストがここに表示されます -->
-            </tbody>
-        </table>
+        <div id="song-container">
+            <!-- ここに選択楽曲が表示 -->
+        </div>
+
+        <br>
+        <div id="song-count">
+            <!-- 何曲中何曲をソートするか表示 -->
+        </div>
+        <br>
+
+
+        <div id="warning-message" class="center">
+            <p>注意!: このページを離れるか、再読み込みすると選択結果が失われます</p>
+        </div>
     </div>
-    <br>
-    <br>
 </body>
 
 </html>

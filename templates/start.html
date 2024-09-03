@@ -82,8 +82,8 @@
 
         let totalSongs = 0;
         // CSVファイルをShift-JISで読み込む関数
-        function loadCSV() {
-            fetch('static/songdata/songs.csv')  // 読み込むCSVファイルのパス
+        async function loadCSV() {
+            await fetch('static/songdata/songs.csv')  // 読み込むCSVファイルのパス
                 .then(response => response.arrayBuffer())
                 .then(buffer => {
                     const decoder = new TextDecoder('shift-jis');
@@ -193,13 +193,13 @@
                 .map(checkbox => checkbox.id);
             const selectedThemes = document.querySelector('input[name="sort-theme"]:checked').value;
 
-            sessionStorage.setItem('selectedTheme', selectedThemes)
+            sessionStorage.setItem('selectedTheme', selectedThemes);
             const selectedTheme =
                 sessionStorage.setItem('K', selectedValue); // 上位何曲をソートするか
-            sessionStorage.setItem('selectedIds', JSON.stringify(selectedSongs))
+            sessionStorage.setItem('selectedIds', JSON.stringify(selectedSongs));
 
             // sort.htmlに遷移
-            window.location.href = '{{ url_for('sort') }}';
+            window.location.href = "{{ url_for('sort') }}";
         });
 
         // ページロード時にCSVを読み込む

@@ -27,8 +27,7 @@ html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* vertical-align: middle; */
-    height: 100vh;
+    height: 90vh;
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
@@ -39,9 +38,7 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* align-items: center; */
     text-align: left;
-    /* vertical-align: middle; */
     height: auto;
     max-width: 800px;
     margin: 0 auto;
@@ -70,6 +67,26 @@ h2 {
     text-align: left;
     margin-bottom: 1rem;
     color: var(--secondary-color);
+}
+
+h3 {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+p {
+    font-size: 1.3rem;
+}
+
+.center {
+    text-align: center;
+    justify-content: center;
 }
 
 .btn {
@@ -207,7 +224,7 @@ h2 {
     width: 100%;
     padding: 10px;
     margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 1.25rem;
     color: #333333;
     background-color: #e0e0e0;
     border: none;
@@ -315,9 +332,253 @@ select {
     border-radius: 5px;
 }
 
+/* --------------Sort部------------- */
+
+#song-container {
+    display: table;
+    justify-content: space-around;
+    margin-top: 2.5rem;
+    /* justify-content: center; */
+    /* max-width: 90%;
+    margin: 0 auto;
+    font-size: 1.6rem; */
+}
+
+.song-box {
+    display: table-cell;
+    vertical-align: middle;
+    width: 35%;
+    height: 30vh;
+    background-color: #f0f0f0;
+    border-style: solid;
+    border-color: black;
+    border-width: 1.5px;
+    text-align: center;
+    padding: 20px;
+    flex-grow: 1;
+    align-items: center;
+    font-size: 1.3rem;
+    color: rgb(39, 39, 39);
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: all 0.1s ease;
+
+}
+
+.draw-box {
+    width: 15%;
+    font-size: 1.0rem;
+}
+
+.song-box p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+}
+
+.song-box:hover {
+    background-color: #e0e0e0;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.song-box:active {
+    transform: translateY(2px);
+}
+
+/* .song-box {
+    padding: 0.5rem;
+    border: 1px solid #050d13;
+    border-radius: 5px;
+    margin: 5%;
+    text-align: center;
+    width: 30%;
+    background-color: #ffffff;
+    color: black;
+} */
+
+
+/* ソート進捗を表示 */
+
+#progress-bar {
+    display: block;
+    /* justify-content: center;
+    align-items: center; */
+    /* text-align: center; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#progress-container {
+    width: 60%;
+    height: 0.8rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    justify-content: left;
+    background-color: #4caf50;
+    transition: width 0.3s ease-in-out;
+}
+
+
+
+/* ----------Result----------- */
+
+/* Result */
+
+
+.title {
+    text-align: center;
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+}
+
+
+.ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    /* max-width: 1200px; */
+    /* margin: auto; */
+}
+
+.ranking-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.4rem;
+    transition: transform 0.3s ease;
+}
+
+.ranking-card:hover {
+    transform: translateY(-5px);
+}
+
+.ranking-card.top-3 {
+    background: linear-gradient(to right, #faeca0, #fdd7cd);
+    color: #fff;
+}
+
+.top-3 .title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.rank {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff6f61;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.album {
+    font-size: 1rem;
+    color: #888;
+}
+
+@keyframes highlight {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+.ranking-card.top-3:hover {
+    animation: highlight 0.3s ease forwards;
+}
+
+
+/* デザイン変更 */
+
+
+/* table {
+    border-collapse: collapse;
+    justify-content: center;
+    width: 70%;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.special-rank {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #ffcc00;
+}
+
+.special-title {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #f7eab9;
+}
+
+.special-album {
+    background-color: #f7eab9;
+} */
+
+/* .Twitter {
+    background-color: rgb(6, 164, 255);
+    color: #fff;
+} */
+
+.Twitter {
+    background-color: #1da1f2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Twitter:hover {
+    background-color: #0d95e8;
+}
+
+
+/* 以下、仮の部分 */
+
+/* 
+
+
 
 /* Comparison Page Styles */
-.comparison-container {
+
+/* .comparison-container {
     display: flex;
     justify-content: space-around;
     width: 100%;
@@ -350,8 +611,8 @@ select {
 
 .progress-bar {
     width: 100%;
-    max-width: 800px;
-    height: 10px;
+    max-width: 70%;
+    height: 0.5rem;
     background-color: var(--surface-color);
     margin-top: 2rem;
     border-radius: 5px;
@@ -384,10 +645,12 @@ select {
 .rating-option:hover {
     background-color: var(--primary-color);
     transform: translateY(-2px);
-}
+} */
 
 /* Ranking Page Styles */
-.ranking-info {
+
+
+/* .ranking-info {
     text-align: center;
     margin-bottom: 2rem;
     font-size: 1.2rem;
@@ -456,19 +719,22 @@ select {
 .share-button:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
-}
+} */
 
 
-
+/* 
 footer {
-    /* margin-top: 20px; */
     text-align: center;
-    /* font-size: 10rem; */
-    /* color: #888888; */
-    /* background-color: #f9f9f9; */
     padding: 1px;
-    /* border-top: 0px solid #dddddd; */
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+ */
+
+footer {
+    text-align: center;
+    padding: 10px;
+    /* background-color: #f1f1f1; */
+    margin-top: auto;
 }
