@@ -10,9 +10,25 @@ let songObjects = []; //選択された曲オブジェクト
 // 比較回数カウント
 let countComparison = 0;
 let comparisons = new Map();
+let referenceCount = 200; // 後でn,kから予め算出された目安を取得
+
+
+// 比較回数の参考値を取得
+async function fetchData(N, K) {
+    const response = await fetch('static/songdata/data.json'); // 外部ファイルのパス
+    const data = await response.json();
+
+    const result = data.find(item => item.n === N && item.k === K);
+    if (result) {
+        return result.value;
+    } else {
+        return 200; // 該当する要素が見つからなかった場合
+    }
+}
+
+
 
 // CSV読み込み部
-
 // CSVファイルをShift-JISで読み込む関数
 async function loadCSV() {
     await fetch('static/songdata/songs.csv')  // 読み込むCSVファイルのパス
@@ -24,6 +40,18 @@ async function loadCSV() {
             selectedTheme = sessionStorage.getItem('selectedTheme')
             selectedIds = JSON.parse(sessionStorage.getItem('selectedIds'));
             numberOfTop = parseInt(sessionStorage.getItem('K'));
+            //Nを超えないように抑える
+            numberOfTop = Math.min(numberOfTop, selectedIds.length);
+
+            // 概ね必要な比較回数を取得
+            fetchData(selectedIds.length, numberOfTop).then(value => {
+                referenceCount = value;
+                console.log(referenceCount);
+            }).catch(error => {
+                console.error(error);
+            });
+
+
             // Parse時に、指定のIDだけ抜き出す
             songObjects = parseCSV(text, selectedIds);
             // ソートのためにシャッフルしておく
@@ -69,7 +97,7 @@ async function startSort() {
     // compare_func(selectedSongs[idxs[0]], selectedSongs[idxs[1]]);
 
     const progressContainer = document.getElementById('song-count');
-    progressContainer.innerHTML = `<p class='center'>${selectedSongs.length}曲中 Top ${Math.min(numberOfTop, selectedSongs.length)} をソートします</p><br>`;
+    progressContainer.innerHTML = `<p class='center'>${selectedSongs.length}曲中 Top ${numberOfTop} をソートします</p><br>`;
 
     const progressDiv = document.getElementById('progress-container');
     progressDiv.style.display = 'block';
@@ -146,17 +174,22 @@ async function updateProgressBar(value) {
 
 async function progress() {
     // 0.0 から 1.0 の値を取得する関数
-    let fixedNum = 0;
-    // let totalNum = Math.min(selectedSongs.length, numberOfTop);
-    let totalNum = selectedSongs.length;
-    for (let i = 0; i < totalNum; i++) {
-        if (selectedSongs[i].rank != -1) {
-            fixedNum++;
-        }
-    }
-    //立方根で写像したものを進捗として可視化.理由は割合に対して進捗が線形でないから.
-    //本来はlogが正しいはずだが簡易的に立方根で実装.
-    let ret = Math.cbrt(fixedNum / totalNum);
+
+    let ret = countComparison / referenceCount;
+    ret = Math.min(1.0, ret); //最大1.0に上から抑える
+    return ret;
+
+    // let fixedNum = 0;
+    // // let totalNum = Math.min(selectedSongs.length, numberOfTop);
+    // let totalNum = selectedSongs.length;
+    // for (let i = 0; i < totalNum; i++) {
+    //     if (selectedSongs[i].rank != -1) {
+    //         fixedNum++;
+    //     }
+    // }
+    // //立方根で写像したものを進捗として可視化.理由は割合に対して進捗が線形でないから.
+    // //本来はlogが正しいはずだが簡易的に立方根で実装.
+    // let ret = Math.cbrt(fixedNum / totalNum);
     return ret;
 }
 
@@ -226,6 +259,8 @@ async function pivotSelection(A, start, end, compare_func, threshold = 5) {
                         displaySongs(arr[j], arr[j + 1]);
                         await waitButtonClick();
                         comp = compare_func(arr[j], arr[j + 1])
+                        const prog = await progress();
+                        await updateProgressBar(prog);
                     }
                     if (comp > 0) {
                         const current_element = arr[j];
@@ -288,7 +323,9 @@ async function partition_3div(A, start, end, pivot_idx, compare_func) {
             if (result == undefined) {//比較したことのない要素
                 displaySongs(pivot, A[i]);
                 await waitButtonClick();
-                result = compare_func(pivot, A[i])
+                result = compare_func(pivot, A[i]);
+                const prog = await progress();
+                await updateProgressBar(prog);
             }
             switch (result) {
                 case 1:

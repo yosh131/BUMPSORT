@@ -194,8 +194,10 @@
             const selectedThemes = document.querySelector('input[name="sort-theme"]:checked').value;
 
             sessionStorage.setItem('selectedTheme', selectedThemes);
-            const selectedTheme =
-                sessionStorage.setItem('K', selectedValue); // 上位何曲をソートするか
+
+            const numberSelect = document.getElementById('numberSelect');
+            const selectedValue = numberSelect.value;
+            sessionStorage.setItem('K', selectedValue); // 上位何曲をソートするか
             sessionStorage.setItem('selectedIds', JSON.stringify(selectedSongs));
 
             // sort.htmlに遷移
