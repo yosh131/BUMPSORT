@@ -544,7 +544,7 @@ function transitionResult(sortedSongObjects) {
     console.log("/result?" + queryParam);
 
     // ページ遷移直前にデータをサーバーに送信
-    saveResults(sortedSongObjects, selectedTheme, countComparison);
+    saveResults(sortedSongObjects.slice(0, Math.min(numberOfTop, sortedIds.length)), selectedTheme, countComparison);
 
     window.location.href = "/result?param=" + queryParam;
 }
