@@ -522,7 +522,7 @@ function saveResults(songObjects, theme, count) {
 
 
 // ソート終了後にResultページへ遷移
-function transitionResult(sortedSongObjects) {
+async function transitionResult(sortedSongObjects) {
     console.log("Total count:", countComparison);
 
     const sortedIds = sortedSongObjects.map(item => item.id);
@@ -544,7 +544,7 @@ function transitionResult(sortedSongObjects) {
     console.log("/result?" + queryParam);
 
     // ページ遷移直前にデータをサーバーに送信
-    saveResults(sortedSongObjects.slice(0, Math.min(numberOfTop, sortedIds.length)), selectedTheme, countComparison);
+    await saveResults(sortedSongObjects.slice(0, Math.min(numberOfTop, sortedIds.length)), selectedTheme, countComparison);
 
     window.location.href = "/result?param=" + queryParam;
 }
