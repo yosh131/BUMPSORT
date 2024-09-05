@@ -1,1 +1,2 @@
-・PostgreSQLに直す
+・DBの設計として、今の設計だと何位までが正確なのかがわからない
+　ので、numberOfTopをカラムに増やすか、sortedSongs[:numberOfTop]までの要素だけをDBに送信するか。

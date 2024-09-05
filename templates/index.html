@@ -18,9 +18,56 @@
             <h1>BumpSort</h1>
             <p style="font-size:1.2rem">BUMP OF CHICKEN の全楽曲で<br>オリジナルランキングを作成</p>
             <div class="button-wrapper">
-                <button class="btn btn-secondary" id="howBtn">How to Use?</button>
                 <button class="btn btn-primary" id="startBtn">Start!</button>
-                <button class="btn btn-secondary" id="rankingBtn">Ranking</button>
+                <button class="btn btn-secondary" id="howBtn">How to Use?</button>
+                <!-- <button class="btn btn-secondary" id="rankingBtn">Ranking</button> -->
+            </div>
+
+            <!-- モーダルウインドウ -->
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p style="color:black;text-align:left;">
+                        <strong style="font-size:1.6rem;">概要</strong><br>
+                        このページでは、BUMP OF CHICKENの全楽曲からお気に入りの楽曲をソートすることができます。
+                        画面に表示される2つの楽曲の中から、どちらが好きかを選んでいくことで、自分だけのランキングを作成できます。
+                        ただし、全楽曲を対象にすると時間がかかるため、まずは好きな曲をある程度選んで、その中から上位のみをソートします。
+                        <br><br>
+                        <strong style="font-size:0.8rem">※ソート結果はサーバーに収集され、データ分析に使用させていただく場合があります。</strong>
+                        <br><br><br>
+                        <strong style="font-size:1.6rem;">使い方</strong>
+
+                    </p>
+
+                    <ol style="color:black;text-align:left;    padding-inline-start: 1rem;">
+
+                        <li>
+                            <strong class="step-title">テーマを選択</strong><br>
+                            あなたがソートしたいテーマを選びます（例：好きな曲、ライブで聴きたい曲 など）
+                            <br>
+                        </li>
+                        <li>
+                            <strong class="step-title">対象となる曲を選ぶ</strong><br>
+                            全曲から、あなたが好きな曲を選んでください（ざっくり選んでいただいて大丈夫です）
+                            <br>
+                        </li>
+                        <li>
+                            <strong class="step-title">上位何曲までソートするか選択</strong><br>
+                            ソートする上位曲数を選択します。曲数が多いほどソートに時間がかかるので、適度な数(10~30程度)を選ぶことを推奨します。
+                            <br>
+                        </li>
+                        <li>
+                            <strong class="step-title">ソート開始</strong><br>
+                            表示された2曲から、どちらがテーマに合っているかを選んでください。引き分けを選ぶこともできます。
+                            <br>
+                        </li>
+                        <li>
+                            <strong class="step-title">ソート結果の確認</strong><br>
+                            完成したランキングが表示されます。シェアボタンかURLから結果を共有できますので、是非シェアしていただけると嬉しいです。
+                            <br>
+                        </li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
@@ -35,6 +82,27 @@
             this.style.transform = 'scale(0.95)';
             setTimeout(() => this.style.transform = 'scale(1)', 100);
         });
+        // モーダルウインドウとボタンの要素を取得
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("howBtn");
+        var span = document.getElementsByClassName("close")[0];
+
+        // ボタンがクリックされたときにモーダルを表示
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // 閉じるボタンがクリックされたときにモーダルを非表示
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // モーダルの外側がクリックされたときにモーダルを非表示
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
         // カーソルエフェクト
         document.addEventListener('mousemove', function (e) {
@@ -54,14 +122,14 @@
         startBtn.addEventListener('click', () => {
             window.location.href = "{{ url_for('start') }}";
         });
-        const howBtn = document.getElementById('howBtn');
-        howBtn.addEventListener('click', () => {
-            window.location.href = "{{ url_for('how_to_use') }}";
-        });
-        const rankingBtn = document.getElementById('rankingBtn');
-        rankingBtn.addEventListener('click', () => {
-            window.location.href = "{{ url_for('ranking') }}";
-        });
+        // const howBtn = document.getElementById('howBtn');
+        // howBtn.addEventListener('click', () => {
+        //     window.location.href = "{{ url_for('how_to_use') }}";
+        // });
+        // const rankingBtn = document.getElementById('rankingBtn');
+        // rankingBtn.addEventListener('click', () => {
+        //     window.location.href = "{{ url_for('ranking') }}";
+        // });
     </script>
 </body>
 
